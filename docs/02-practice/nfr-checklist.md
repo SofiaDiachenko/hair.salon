@@ -1,25 +1,30 @@
-# NFR Checklist — реалізація у прототипі (Performance-first)
+# NFR Checklist
 
 ## Формат часу
-- Усі дати в mock-api в ISO 8601 (UTC).
+- Усі дати/часи — ISO 8601, UTC (записи в timeslot.start, booking.created_at)
 
-## Коди помилок
-- Відображення користувацьких помилок: BOOKING_FULL, INVALID_TIMESLOT, NOT_FOUND, UNAUTHORIZED (mock).
+## Стабільні коди помилок
+- BOOKING_FULL — слот заповнений
+- INVALID_TIMESLOT — таймслот не знайдено
+- NOT_FOUND — ресурс не знайдено
+- UNAUTHORIZED — відсутня авторизація
 
-## Performance
-- Локальні JSON файли та json-server — мінімальні відповіді.
-- JS кеш: сервісні дані зберігаються у `servicesCache` / `timeslotsCache` для зменшення повторних запитів.
-- Пагінація у списках — для реальної реалізації; в прототипі можна імітувати через query params limit/offset.
-- Кешування популярних запитів (можна додати localStorage/sessionStorage TTL).
+## Performance (акцент)
+- Пагінація для GET /timeslots та GET /bookings: support ?limit=&offset=
+- Мінімальні відповіді: тільки необхідні поля (no heavy payload)
+- Кешування популярних запитів (в прототипі: services кешується в браузері / servicesCache)
+- Стиснення відповіді — на production (gzip/br)
 
 ## Accessibility (a11y)
-- aria-label на select та інпутах.
-- Видимий фокус (outline) для клавіатурної навігації.
-- aria-live при оновленні списку таймслотів.
-- Контраст кольорів відповідає WCAG AA.
+- aria-label на інтерактивних елементах
+- видимий focus outline
+- клавішна навігація (tabindex, логічний порядок)
+- aria-live для динамічних оновлень (timeslots)
 
-## Privacy / Security
-- У прототипі: всі дані мокові, не лікуються реальні персональні дані.
-- Не зберігаємо чутливі дані в LocalStorage.
-- Для production: передбачена авторизація (token для admin/master).
+## Privacy
+- У production — маскування контактів, зберігання PII мінімізоване
+- У прототипі — тестові/mock дані. Не зберігати реальні PII в репозиторії.
+
+## Availability
+- SLA target (production): 99% uptime
 
