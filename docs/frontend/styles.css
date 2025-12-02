@@ -1,51 +1,30 @@
-/* A11y: Високий контраст */
-body {
-    font-family: sans-serif;
-    background-color: #121212; /* Темний фон */
-    color: #e0e0e0; /* Світлий текст */
+:root{
+  --accent:#0066cc;
+  --success:#0a8a3d;
+  --error:#c62828;
+  --bg:#fff;
+  --text:#111;
 }
-h1, h2 {
-    color: #bb86fc; /* Акцентний колір */
+*{box-sizing:border-box}
+body{
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  margin:0;
+  padding:20px;
+  background:var(--bg);
+  color:var(--text);
 }
-
-/* A11y: Фокус клавіатури */
-button:focus, input:focus {
-    outline: 3px solid #03dac6;
-    border-radius: 4px;
-}
-
-/* Стан Завантаження */
-.loading-state {
-    padding: 15px;
-    background-color: #2e2e2e;
-    color: #e0e0e0;
-    border-radius: 4px;
-    border-left: 5px solid #bb86fc;
-}
-
-/* Стан Помилки */
-.error-state {
-    padding: 15px;
-    background-color: #3b2b2b;
-    color: #cf6679;
-    border-radius: 4px;
-    border-left: 5px solid #cf6679;
-}
-
-/* Стан Успіху */
-.success-state {
-    padding: 15px;
-    background-color: #2b3b2b;
-    color: #03dac6;
-    border-radius: 4px;
-    border-left: 5px solid #03dac6;
-}
-
-/* Стан Empty */
-.empty-state {
-    padding: 15px;
-    background-color: #2e2e2e;
-    color: #e0e0e0;
-    border-radius: 4px;
-    border: 1px dashed #e0e0e0;
-}
+h1,h2{margin:.2rem 0}
+select,input,button{font-size:16px;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:6px}
+button{cursor:pointer;background:var(--accent);color:#fff;border:none}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus,input:focus,select:focus{outline:3px solid rgba(0,102,204,0.25);box-shadow:0 0 0 3px rgba(0,102,204,0.08)}
+#timeslots button{margin:6px 6px 6px 0;background:#f2f2f2;color:#111;border:1px solid #ddd}
+.slot-full{background:#eee;color:#888;border-style:dashed}
+.state{margin-top:10px;font-weight:600}
+.success{color:var(--success)}
+.error{color:var(--error)}
+.loading{color:#666}
+.empty{color:#666}
+#booking-section{margin-top:16px;padding:10px;border:1px solid #eee;border-radius:8px}
+label{display:block}
+#bookingsList{margin-top:8px;padding:8px;border:1px dashed #ddd;border-radius:6px}
