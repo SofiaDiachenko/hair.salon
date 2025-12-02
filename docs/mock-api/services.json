@@ -1,5 +1,6 @@
 [
-  { "id": 1, "name": "Стрижка жіноча", "duration_min": 60, "price_uah": 450 },
-  { "id": 2, "name": "Фарбування", "duration_min": 120, "price_uah": 1200 },
-  { "id": 3, "name": "Укладка", "duration_min": 30, "price_uah": 300 }
+  { "id": 1, "name": "Стрижка жіноча", "duration_min": 30, "description": "Класична стрижка" },
+  { "id": 2, "name": "Фарбування", "duration_min": 120, "description": "Повне фарбування" },
+  { "id": 3, "name": "Укладка", "duration_min": 45, "description": "Стилізація укладки" }
 ]
+
