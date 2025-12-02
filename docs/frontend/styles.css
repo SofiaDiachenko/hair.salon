@@ -1,23 +1,166 @@
-:root{
+:root {
   --accent: #0066cc;
+  --accent-hover: #0056a8;
   --success: #0a8a3d;
   --error: #c62828;
   --bg: #ffffff;
   --text: #111111;
+  --border-light: #cccccc;
 }
-*{box-sizing:border-box}
-body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);margin:16px}
-h1,h2{margin:6px 0}
-select,input,button{font-size:16px;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:6px}
-button{background:var(--accent);color:#fff;border:none}
-button:disabled{opacity:0.6;cursor:not-allowed}
-button:focus,input:focus,select:focus{outline:3px solid rgba(0,102,204,0.25)}
-#timeslots button{margin:6px 6px 6px 0;background:#f7f7f7;color:#111;border:1px solid #ddd}
-.slot-full{background:#eee;color:#888;border-style:dashed}
-.state{margin-top:10px;font-weight:600}
-.success{color:var(--success)}
-.error{color:var(--error)}
-.loading{color:#666}
-#booking-section{margin-top:16px;padding:10px;border:1px solid #eee;border-radius:8px}
-label{display:block}
-#bookingsList{margin-top:8px;padding:8px;border:1px dashed #ddd}
+
+/* ---------------------- */
+/* ACCESSIBILITY HELPERS  */
+/* ---------------------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* GENERAL RESET */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 16px;
+  line-height: 1.5;
+}
+
+h1, h2 {
+  margin: 6px 0 12px 0;
+}
+
+/* ---------------------- */
+/* FORM ELEMENTS */
+/* ---------------------- */
+select,
+input,
+button {
+  font-size: 16px;
+  padding: 10px 12px;
+  margin: 8px 0;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ---------------------- */
+/* BUTTONS */
+/* ---------------------- */
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Focus visible for keyboard navigation */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(0, 102, 204, 0.4);
+  outline-offset: 2px;
+}
+
+/* ---------------------- */
+/* TIMESLOTS */
+/* ---------------------- */
+#timeslots button {
+  background: #f3f7fb;
+  color: #111;
+  border: 1px solid #ccc;
+  margin: 6px 8px 6px 0;
+  border-radius: 6px;
+}
+
+#timeslots button:hover {
+  background: #e3edf8;
+}
+
+.slot-full {
+  background: #e8e8e8;
+  color: #888;
+  border: 1px dashed #aaa !important;
+  cursor: default;
+}
+
+/* ---------------------- */
+/* STATUS MESSAGES */
+/* ---------------------- */
+.state {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.success {
+  color: var(--success);
+}
+
+.error {
+  color: var(--error);
+}
+
+.loading {
+  color: #666;
+  font-style: italic;
+}
+
+/* ---------------------- */
+/* BOOKING SECTION */
+/* ---------------------- */
+#booking-section {
+  margin-top: 20px;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  max-width: 450px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+.buttons {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+/* ---------------------- */
+/* BOOKINGS LIST */
+/* ---------------------- */
+#bookingsList {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  max-width: 450px;
+  background: #fafafa;
+}
