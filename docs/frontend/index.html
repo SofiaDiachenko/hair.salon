@@ -1,20 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Salon Booking — MVP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booking — Perukarnya (MVP)</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <h1>Бронювання — Перукарня</h1>
+    <h1>Перукарня — Онлайн бронювання</h1>
   </header>
 
   <main>
     <section id="services-section">
       <h2>Оберіть послугу</h2>
-      <select id="serviceSelect" aria-label="Оберіть послугу"></select>
+      <select id="serviceSelect" aria-label="select_service"></select>
     </section>
 
     <section id="timeslots-section">
@@ -26,16 +26,14 @@
     <section id="booking-section" aria-hidden="true">
       <h2>Форма бронювання</h2>
       <form id="bookingForm">
-        <label>
-          Ім'я
-          <input id="name" aria-label="Ваше ім'я" required />
+        <label>Ім'я
+          <input id="clientName" aria-label="client_name" required />
         </label>
-        <label>
-          Телефон або Email
-          <input id="contact" aria-label="Контакт" required />
+        <label>Контакт (телефон або email)
+          <input id="contact" aria-label="contact" required />
         </label>
-        <div>
-          <button id="submitBooking" type="submit">Підтвердити бронювання</button>
+        <div class="buttons">
+          <button id="submitBooking" type="submit">Підтвердити</button>
           <button id="cancelBooking" type="button">Скасувати</button>
         </div>
       </form>
@@ -43,14 +41,14 @@
     </section>
 
     <section id="admin-section">
-      <h2>Адмін / Майстер — демо</h2>
-      <button id="viewBookings">Показати всі бронювання (демо)</button>
+      <h2>Демо — Перегляд бронювань</h2>
+      <button id="viewBookings">Показати бронювання</button>
       <div id="bookingsList"></div>
     </section>
   </main>
 
   <footer>
-    <small>Variant: student ticket (capacity=3, performance-first)</small>
+    <small>Variant: перукарня — capacity=3 — performance-first</small>
   </footer>
 
   <script src="app.js"></script>
