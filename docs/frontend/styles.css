@@ -1,30 +1,23 @@
 :root{
-  --accent:#0066cc;
-  --success:#0a8a3d;
-  --error:#c62828;
-  --bg:#fff;
-  --text:#111;
+  --accent: #0066cc;
+  --success: #0a8a3d;
+  --error: #c62828;
+  --bg: #ffffff;
+  --text: #111111;
 }
 *{box-sizing:border-box}
-body{
-  font-family:Inter,Arial,Helvetica,sans-serif;
-  margin:0;
-  padding:20px;
-  background:var(--bg);
-  color:var(--text);
-}
-h1,h2{margin:.2rem 0}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);margin:16px}
+h1,h2{margin:6px 0}
 select,input,button{font-size:16px;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:6px}
-button{cursor:pointer;background:var(--accent);color:#fff;border:none}
-button:disabled{opacity:.5;cursor:not-allowed}
-button:focus,input:focus,select:focus{outline:3px solid rgba(0,102,204,0.25);box-shadow:0 0 0 3px rgba(0,102,204,0.08)}
-#timeslots button{margin:6px 6px 6px 0;background:#f2f2f2;color:#111;border:1px solid #ddd}
+button{background:var(--accent);color:#fff;border:none}
+button:disabled{opacity:0.6;cursor:not-allowed}
+button:focus,input:focus,select:focus{outline:3px solid rgba(0,102,204,0.25)}
+#timeslots button{margin:6px 6px 6px 0;background:#f7f7f7;color:#111;border:1px solid #ddd}
 .slot-full{background:#eee;color:#888;border-style:dashed}
 .state{margin-top:10px;font-weight:600}
 .success{color:var(--success)}
 .error{color:var(--error)}
 .loading{color:#666}
-.empty{color:#666}
 #booking-section{margin-top:16px;padding:10px;border:1px solid #eee;border-radius:8px}
 label{display:block}
-#bookingsList{margin-top:8px;padding:8px;border:1px dashed #ddd;border-radius:6px}
+#bookingsList{margin-top:8px;padding:8px;border:1px dashed #ddd}
