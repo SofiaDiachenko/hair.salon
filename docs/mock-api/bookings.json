@@ -1,5 +1,5 @@
 [
-  { "id": 101, "client_name": "Анна К.", "service_name": "Стрижка жіноча", "timeslot": "2025-03-04T10:00:00Z" },
-  { "id": 102, "client_name": "Олена П.", "service_name": "Стрижка жіноча", "timeslot": "2025-03-04T10:00:00Z" },
-  { "id": 103, "client_name": "Іван Л.", "service_name": "Фарбування", "timeslot": "2025-03-04T14:00:00Z" }
+  { "id": 1, "serviceId": 1, "slotId": 1, "clientName": "Клієнт 1", "createdAt": "2025-03-01T09:00:00Z", "status": "confirmed" },
+  { "id": 2, "serviceId": 1, "slotId": 1, "clientName": "Клієнт 2", "createdAt": "2025-03-01T09:02:00Z", "status": "confirmed" }
 ]
+
