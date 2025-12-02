@@ -1,120 +1,188 @@
-// Зберігаємо обрані дані
-let selectedService = null;
-let selectedTimeslot = null;
+/* Простий frontend, що працює з json-server на http://localhost:3000 */
+const API_ROOT = "http://localhost:3000";
 
-// ФУНКЦІЯ 1: Імітація запиту GET /services
-async function fetchServices() {
-    const servicesList = document.getElementById('services-list');
-    servicesList.innerHTML = `<div class="loading-state">Завантаження послуг...</div>`;
-    
-    // Імітація затримки мережі (для стану Loading)
-    await new Promise(r => setTimeout(r, 500)); 
+const serviceSelect = document.getElementById("serviceSelect");
+const timeslotsDiv = document.getElementById("timeslots");
+const timeslotsState = document.getElementById("timeslots-state");
+const bookingSection = document.getElementById("booking-section");
+const bookingForm = document.getElementById("bookingForm");
+const bookingState = document.getElementById("booking-state");
+const bookingsList = document.getElementById("bookingsList");
+const viewBookingsBtn = document.getElementById("viewBookings");
+const cancelBookingBtn = document.getElementById("cancelBooking");
 
-    try {
-        const response = await fetch('../mock-api/services.json');
-        const services = await response.json();
+let selectedSlot = null;
+let servicesCache = null;
+let timeslotsCache = null;
 
-        servicesList.innerHTML = ''; // Очищаємо стан Loading
-
-        services.forEach(service => {
-            const button = document.createElement('button');
-            button.textContent = `${service.name} (${service.duration_min} хв)`;
-            button.setAttribute('aria-label', `Обрати послугу ${service.name}`);
-            button.addEventListener('click', () => {
-                selectedService = service;
-                // Перехід до наступного кроку: Завантаження слотів
-                document.getElementById('service-selection').style.display = 'none';
-                document.getElementById('timeslot-selection').style.display = 'block';
-                fetchTimeslots(service.id);
-            });
-            servicesList.appendChild(button);
-        });
-
-    } catch (error) {
-        servicesList.innerHTML = `<div class="error-state">Помилка завантаження послуг: ${error.message}</div>`;
-    }
+/* Утиліти */
+function showState(elem, text="", cls=""){
+  elem.textContent = text;
+  elem.className = `state ${cls}`;
+}
+function formatDateISO(isoString){
+  const d = new Date(isoString);
+  return d.toUTCString();
 }
 
-// ФУНКЦІЯ 2: Імітація запиту GET /timeslots
-async function fetchTimeslots(serviceId) {
-    const timeslotStatus = document.getElementById('timeslot-status');
-    const timeslotsList = document.getElementById('timeslots-list');
-    const timeslotsEmpty = document.getElementById('timeslots-empty');
-    
-    timeslotsStatus.style.display = 'block';
-    timeslotsList.innerHTML = '';
-    timeslotsEmpty.style.display = 'none';
-    
-    await new Promise(r => setTimeout(r, 700)); // Імітація затримки (Performance-first: кешування, тому швидше за послуги)
-
-    try {
-        const response = await fetch('../mock-api/timeslots.json');
-        let data = await response.json();
-        
-        // **Performance-first:** Імітація пагінації (беремо лише першого майстра для прикладу)
-        let masterData = data[0]; 
-
-        timeslotsStatus.style.display = 'none'; // Завантаження завершено
-        
-        const availableSlots = masterData.slots.filter(slot => slot.is_available);
-
-        if (availableSlots.length === 0) {
-            timeslotsEmpty.style.display = 'block';
-            return;
-        }
-
-        availableSlots.forEach(slot => {
-            const timeButton = document.createElement('button');
-            // Відображення capacity: (2/3) - демонстрація місткості
-            timeButton.textContent = `${slot.time.substring(0, 5)} (${slot.capacity_used}/${slot.capacity_max})`;
-            timeButton.setAttribute('aria-label', `Забронювати на час ${slot.time.substring(0, 5)}`);
-            timeButton.addEventListener('click', () => {
-                selectedTimeslot = { ...slot, master_name: masterData.master_name, service_id: serviceId };
-                // Перехід до форми бронювання
-                document.getElementById('timeslot-selection').style.display = 'none';
-                document.getElementById('booking-form-section').style.display = 'block';
-                document.getElementById('selected-service-info').textContent = selectedService.name;
-                document.getElementById('selected-timeslot-info').textContent = `${masterData.master_name} на ${slot.time.substring(0, 5)} ${masterData.date}`;
-            });
-            timeslotsList.appendChild(timeButton);
-        });
-
-    } catch (error) {
-        timeslotStatus.innerHTML = `<div class="error-state">Помилка завантаження слотів: ${error.message}</div>`;
-    }
+/* Load services */
+async function loadServices(){
+  try{
+    showState(timeslotsState,"Завантаження послуг...","loading");
+    const res = await fetch(`${API_ROOT}/services`);
+    servicesCache = await res.json();
+    serviceSelect.innerHTML = "";
+    servicesCache.forEach(s=>{
+      const opt = document.createElement("option");
+      opt.value = s.id;
+      opt.textContent = s.name;
+      serviceSelect.appendChild(opt);
+    });
+    showState(timeslotsState,"",""); // clear
+    loadTimeslots();
+  } catch(e){
+    showState(timeslotsState,"Не вдалося завантажити послуги","error");
+  }
 }
 
-// ФУНКЦІЯ 3: Імітація запиту POST /bookings
-document.getElementById('booking-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
+/* Load timeslots for selected service */
+async function loadTimeslots(){
+  const serviceId = serviceSelect.value || (servicesCache && servicesCache[0] && servicesCache[0].id);
+  if(!serviceId){ showState(timeslotsState,"Немає послуг","empty"); return; }
+  showState(timeslotsState,"Завантаження таймслотів...","loading");
+  try{
+    const res = await fetch(`${API_ROOT}/timeslots?serviceId=${serviceId}`);
+    const data = await res.json();
+    timeslotsCache = data;
+    renderTimeslots(data);
+  } catch(e){
+    showState(timeslotsState,"Помилка при завантаженні", "error");
+  }
+}
 
-    const resultDiv = document.getElementById('booking-result');
-    resultDiv.innerHTML = `<div class="loading-state">Обробка бронювання...</div>`;
+/* Render timeslots and check capacity (count bookings) */
+async function renderTimeslots(slots){
+  timeslotsDiv.innerHTML = "";
+  if(!slots || slots.length===0){
+    showState(timeslotsState,"Немає доступних слотів","empty");
+    return;
+  }
 
-    const clientName = document.getElementById('client-name').value;
-    const clientPhone = document.getElementById('client-phone').value;
+  // отримуємо всі бронювання один раз для підрахунку
+  let bookings = [];
+  try{
+    const r = await fetch(`${API_ROOT}/bookings`);
+    bookings = await r.json();
+  } catch(e){
+    bookings = [];
+  }
 
-    const bookingData = {
-        service_id: selectedService.id,
-        timeslot_id: selectedTimeslot.slot_id,
-        client_name: clientName,
-        client_contact: clientPhone,
-        // Імітація даних для POST
-        mock_success: Math.random() > 0.1 // 90% успіху, 10% помилки
+  let anyAvailable = false;
+  for(const slot of slots){
+    const slotBookings = bookings.filter(b => b.slotId === slot.id && b.status === "confirmed");
+    const bookedCount = slotBookings.length;
+    const availableCount = slot.capacity - bookedCount;
+
+    const btn = document.createElement("button");
+    btn.textContent = `${new Date(slot.start).toUTCString()} (${availableCount}/${slot.capacity})`;
+    btn.setAttribute("aria-label", `Слот ${slot.id} ${slot.start} місць ${availableCount}`);
+    if(availableCount <= 0){
+      btn.disabled = true;
+      btn.classList.add("slot-full");
+    } else {
+      anyAvailable = true;
+      btn.onclick = () => {
+        selectedSlot = slot;
+        bookingSection.setAttribute("aria-hidden","false");
+        bookingForm.style.display = "block";
+        showState(bookingState,"Ви обрали слот: " + new Date(slot.start).toUTCString(),"");
+      };
+    }
+    timeslotsDiv.appendChild(btn);
+  }
+
+  if(!anyAvailable) showState(timeslotsState,"Немає вільних місць у доступних слотах","empty");
+  else showState(timeslotsState,"",""); // clear
+}
+
+/* Submit booking: перевіряємо capacity знову перед POST */
+bookingForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if(!selectedSlot){
+    showState(bookingState,"Спочатку виберіть слот","error");
+    return;
+  }
+  const name = document.getElementById("name").value.trim();
+  const contact = document.getElementById("contact").value.trim();
+  if(!name || !contact){
+    showState(bookingState,"Заповніть всі поля","error");
+    return;
+  }
+
+  showState(bookingState,"Перевірка місць...","loading");
+
+  try {
+    const resB = await fetch(`${API_ROOT}/bookings?slotId=${selectedSlot.id}`);
+    const current = await resB.json();
+    if(current.filter(b=>b.status==="confirmed").length >= selectedSlot.capacity){
+      showState(bookingState,"Слот повний. Спробуйте інший.","error");
+      return;
+    }
+
+    // POST booking
+    const payload = {
+      serviceId: selectedSlot.serviceId,
+      slotId: selectedSlot.id,
+      clientName: name,
+      contact,
+      status: "confirmed",
+      createdAt: new Date().toISOString()
     };
 
-    await new Promise(r => setTimeout(r, 1000)); // Імітація обробки
+    const res = await fetch(`${API_ROOT}/bookings`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
 
-    if (bookingData.mock_success) {
-        // Стан Success
-        const newBookingId = Math.floor(Math.random() * 1000) + 200;
-        resultDiv.innerHTML = `<div class="success-state">✅ Успіх! Ваше бронювання #${newBookingId} підтверджено.</div>`;
-        document.getElementById('submit-booking').style.display = 'none';
+    if(res.ok){
+      showState(bookingState,"Бронювання успішне","success");
+      // оновити timeslots
+      await loadTimeslots();
     } else {
-        // Стан Error (імітація BOOKING_FULL)
-        resultDiv.innerHTML = `<div class="error-state">❌ Помилка бронювання (BOOKING_FULL). На жаль, цей час щойно забронювали. Спробуйте інший слот.</div>`;
+      showState(bookingState,"Помилка при створенні бронювання","error");
     }
+
+  } catch(err){
+    showState(bookingState,"Мережна помилка","error");
+  }
 });
 
-// Запускаємо завантаження послуг при старті
-document.addEventListener('DOMContentLoaded', fetchServices);
+cancelBookingBtn.onclick = () => {
+  bookingForm.reset();
+  bookingSection.setAttribute("aria-hidden","true");
+  selectedSlot = null;
+  showState(bookingState,"",""); 
+};
+
+/* Демо: показати всі бронювання (для майстра) */
+viewBookingsBtn.onclick = async () => {
+  bookingsList.innerHTML = "Завантаження...";
+  try{
+    const res = await fetch(`${API_ROOT}/bookings`);
+    const data = await res.json();
+    bookingsList.innerHTML = "";
+    if(data.length===0) bookingsList.textContent = "Немає бронювань";
+    data.forEach(b=>{
+      const el = document.createElement("div");
+      el.textContent = `${b.clientName} — slot ${b.slotId} — ${b.status} — ${b.createdAt}`;
+      bookingsList.appendChild(el);
+    });
+  } catch(e){
+    bookingsList.textContent = "Не вдалося завантажити бронювання";
+  }
+};
+
+/* ініціалізація */
+serviceSelect.addEventListener("change", loadTimeslots);
+document.addEventListener("DOMContentLoaded", loadServices);
