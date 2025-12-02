@@ -1,6 +1,6 @@
 [
-  { "id": 1, "serviceId": 1, "start": "2025-03-04T10:00:00Z", "capacity": 3 },
-  { "id": 2, "serviceId": 1, "start": "2025-03-04T11:00:00Z", "capacity": 3 },
-  { "id": 3, "serviceId": 2, "start": "2025-03-04T14:00:00Z", "capacity": 3 },
-  { "id": 4, "serviceId": 3, "start": "2025-03-04T15:00:00Z", "capacity": 3 }
+  { "timeslot_id": 1, "service_id": 1, "start": "2025-03-04T10:00:00Z", "capacity": 3 },
+  { "timeslot_id": 2, "service_id": 1, "start": "2025-03-04T11:00:00Z", "capacity": 3 },
+  { "timeslot_id": 3, "service_id": 2, "start": "2025-03-04T14:00:00Z", "capacity": 3 },
+  { "timeslot_id": 4, "service_id": 3, "start": "2025-03-04T15:00:00Z", "capacity": 3 }
 ]
