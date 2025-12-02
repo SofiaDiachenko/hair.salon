@@ -1,98 +1,183 @@
 <!doctype html>
 <html lang="uk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Booking — Perukarnya (MVP)</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header>
-    <h1>Перукарня — Онлайн бронювання</h1>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Перукарня — Онлайн бронювання (MVP)</title>
 
-  <main>
-    <!-- SERVICES -->
-    <section id="services-section">
-      <h2>Оберіть послугу</h2>
+    
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-      <label for="serviceSelect" class="visually-hidden">Список послуг</label>
-      <select 
-        id="serviceSelect" 
-        aria-label="select_service"
-        aria-describedby="timeslots-state">
-      </select>
-    </section>
-
-    <!-- TIMESLOTS -->
-    <section id="timeslots-section">
-      <h2>Доступні таймслоти</h2>
-
-      <div 
-        id="timeslots" 
-        aria-live="polite" 
-        aria-label="timeslots_list">
+  <body>
+    <!-- ================= HEADER ================= -->
+    <header class="app-header">
+      <div class="app-header__inner">
+        <h1 class="app-title">Перукарня — онлайн бронювання</h1>
+        <p class="app-subtitle">
+          Оберіть послугу, вільний час і забронюйте візит за кілька кліків
+        </p>
       </div>
+    </header>
 
-      <div 
-        id="timeslots-state" 
-        class="state" 
-        aria-live="assertive">
-      </div>
-    </section>
+    <!-- ================= MAIN LAYOUT ================= -->
+    <main class="app-main">
+      <div class="layout-grid">
+        <!-- ========== LEFT COLUMN: SERVICES + TIMESLOTS ========== -->
+        <div class="column">
+          <!-- SERVICES -->
+          <section
+            id="services-section"
+            class="card"
+            aria-labelledby="services-title"
+          >
+            <h2 id="services-title">Оберіть послугу</h2>
 
-    <!-- BOOKING FORM -->
-    <section id="booking-section" hidden>
-      <h2>Форма бронювання</h2>
+            <!--
+              Лейбл прихований візуально, але доступний для screen reader.
+            -->
+            <label for="serviceSelect" class="visually-hidden">
+              Список послуг перукарні
+            </label>
 
-      <form id="bookingForm" aria-describedby="booking-state">
-        <label for="clientName">Ім’я</label>
-        <input 
-          id="clientName" 
-          type="text" 
-          required 
-          aria-label="client_name"
-        />
+            <select
+              id="serviceSelect"
+              aria-label="select_service"
+              aria-describedby="timeslots-state"
+            >
+              <!-- Опції послуг додаються динамічно через app.js -->
+            </select>
 
-        <label for="contact">Контакт (телефон або email)</label>
-        <input 
-          id="contact" 
-          type="text" 
-          required 
-          aria-label="contact"
-        />
+            <p class="hint">
+              Спочатку оберіть послугу зі списку, далі — вільний слот.
+            </p>
+          </section>
 
-        <div class="buttons">
-          <button id="submitBooking" type="submit">Підтвердити</button>
-          <button id="cancelBooking" type="button">Скасувати</button>
+          <!-- TIMESLOTS -->
+          <section
+            id="timeslots-section"
+            class="card"
+            aria-labelledby="timeslots-title"
+          >
+            <h2 id="timeslots-title">Доступні таймслоти</h2>
+
+            <!--
+              Список кнопок-слотів. Кожна кнопка показує час і залишок місць.
+              aria-live="polite" — щоб читач екрану оголошував зміни.
+            -->
+            <div
+              id="timeslots"
+              aria-live="polite"
+              aria-label="timeslots_list"
+            ></div>
+
+            <!--
+              Блок для станів: loading, empty, error.
+              aria-live="assertive" — важливі повідомлення (помилки, відсутність слотів).
+            -->
+            <div
+              id="timeslots-state"
+              class="state"
+              aria-live="assertive"
+            ></div>
+          </section>
         </div>
-      </form>
 
-      <div 
-        id="booking-state" 
-        class="state"
-        aria-live="assertive">
+        <!-- ========== RIGHT COLUMN: BOOKING + ADMIN DEMO ========== -->
+        <div class="column">
+          <!-- BOOKING FORM -->
+          <section
+            id="booking-section"
+            class="card"
+            hidden
+            aria-labelledby="booking-title"
+          >
+            <h2 id="booking-title">Форма бронювання</h2>
+
+            <!--
+              Форма відправляється тільки на фронтенд (обробка в app.js),
+              потім надсилається POST /bookings до мок-API.
+            -->
+            <form id="bookingForm" aria-describedby="booking-state">
+              <label for="clientName">Ім’я</label>
+              <input
+                id="clientName"
+                type="text"
+                required
+                aria-label="client_name"
+                placeholder="Ваше ім’я"
+              />
+
+              <label for="contact">Контакт (телефон або email)</label>
+              <input
+                id="contact"
+                type="text"
+                required
+                aria-label="contact"
+                placeholder="+380..."
+              />
+
+              <div class="buttons">
+                <button id="submitBooking" type="submit">
+                  Підтвердити бронювання
+                </button>
+                <button id="cancelBooking" type="button">
+                  Скасувати
+                </button>
+              </div>
+            </form>
+
+            <div
+              id="booking-state"
+              class="state"
+              aria-live="assertive"
+            ></div>
+          </section>
+
+          <!-- ADMIN DEMO -->
+          <section
+            id="admin-section"
+            class="card"
+            aria-labelledby="admin-title"
+          >
+            <h2 id="admin-title">Демо — перегляд бронювань</h2>
+
+            <!--
+              спрощений вигляд розкладу для майстра/адміна.
+            -->
+            <button id="viewBookings" type="button">
+              Показати всі бронювання
+            </button>
+
+            <div
+              id="bookingsList"
+              aria-live="polite"
+              aria-label="bookings_list"
+              class="bookings-list"
+            >
+              <!-- Сюди буде виведений список бронювань -->
+            </div>
+          </section>
+        </div>
       </div>
-    </section>
+    </main>
 
-    <!-- ADMIN DEMO -->
-    <section id="admin-section">
-      <h2>Демо — Перегляд бронювань</h2>
+    <!-- ================= FOOTER ================= -->
+    <footer class="app-footer">
+      <small>
+        Variant: перукарня — capacity = 3 — performance-first (ISO 8601 + UTC, кеш
+        послуг на фронтенді, перевірка capacity перед POST)
+      </small>
+    </footer>
 
-      <button id="viewBookings">Показати бронювання</button>
-
-      <div 
-        id="bookingsList"
-        aria-live="polite"
-        aria-label="bookings_list">
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <small>Variant: перукарня — capacity=3 — performance-first</small>
-  </footer>
-
-  <script src="app.js"></script>
-</body>
+    <!--
+      - завантаження послуг і таймслотів;
+      - перевірку capacity;
+      - створення бронювань.
+    -->
+    <script src="app.js"></script>
+  </body>
 </html>
