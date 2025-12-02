@@ -3,9 +3,10 @@
   --accent-hover: #0056a8;
   --success: #0a8a3d;
   --error: #c62828;
-  --bg: #ffffff;
+  --bg: #f3f5f9;
+  --card-bg: #ffffff;
   --text: #111111;
-  --border-light: #cccccc;
+  --border-light: #d5d7de;
 }
 
 /* ---------------------- */
@@ -23,56 +24,149 @@
   border: 0;
 }
 
-/* GENERAL RESET */
+/* ---------------------- */
+/* GLOBAL RESET & BODY    */
+/* ---------------------- */
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
-  margin: 16px;
+  margin: 0;
   line-height: 1.5;
 }
 
-h1, h2 {
-  margin: 6px 0 12px 0;
+/* ---------------------- */
+/* HEADER                  */
+/* ---------------------- */
+.app-header {
+  background: linear-gradient(120deg, #004c99, #0066cc);
+  color: #ffffff;
+  padding: 20px 16px;
+}
+
+.app-header__inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.app-title {
+  margin: 0 0 6px 0;
+  font-size: 1.6rem;
+}
+
+.app-subtitle {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.95rem;
 }
 
 /* ---------------------- */
-/* FORM ELEMENTS */
+/* MAIN LAYOUT            */
+/* ---------------------- */
+.app-main {
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 0 16px 24px;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* На ширших екранах — дві колонки */
+@media (min-width: 768px) {
+  .layout-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------------------- */
+/* CARD                   */
+/* ---------------------- */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  padding: 16px 18px 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.card h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+}
+
+.hint {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* ---------------------- */
+/* TEXT ELEMENTS          */
+/* ---------------------- */
+h1,
+h2 {
+  font-weight: 600;
+}
+
+/* ---------------------- */
+/* FORM ELEMENTS          */
 /* ---------------------- */
 select,
 input,
 button {
-  font-size: 16px;
+  font-size: 15px;
   padding: 10px 12px;
   margin: 8px 0;
-  border: 1px solid var(--border-light);
   border-radius: 6px;
+  border: 1px solid var(--border-light);
 }
 
 input,
 select {
   width: 100%;
-  max-width: 400px;
+  max-width: 100%;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
 }
 
 /* ---------------------- */
-/* BUTTONS */
+/* BUTTONS                */
 /* ---------------------- */
-
 button {
   background: var(--accent);
   color: #fff;
   border: none;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.18s ease, transform 0.08s ease;
 }
 
 button:hover {
   background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 button:disabled {
@@ -84,19 +178,33 @@ button:disabled {
 button:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 3px solid rgba(0, 102, 204, 0.4);
+  outline: 3px solid rgba(0, 102, 204, 0.5);
   outline-offset: 2px;
 }
 
+/* Group of buttons in booking form */
+.buttons {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 /* ---------------------- */
-/* TIMESLOTS */
+/* TIMESLOTS              */
 /* ---------------------- */
+#timeslots {
+  margin-top: 8px;
+}
+
 #timeslots button {
   background: #f3f7fb;
   color: #111;
-  border: 1px solid #ccc;
+  border: 1px solid #c3cde0;
   margin: 6px 8px 6px 0;
-  border-radius: 6px;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  padding: 8px 12px;
 }
 
 #timeslots button:hover {
@@ -104,63 +212,71 @@ select:focus-visible {
 }
 
 .slot-full {
-  background: #e8e8e8;
+  background: #eceff3;
   color: #888;
-  border: 1px dashed #aaa !important;
+  border: 1px dashed #b0b4bf !important;
   cursor: default;
 }
 
 /* ---------------------- */
-/* STATUS MESSAGES */
+/* STATUS MESSAGES        */
 /* ---------------------- */
 .state {
   margin-top: 10px;
   font-weight: 600;
+  font-size: 0.9rem;
 }
 
-.success {
+.state.success {
   color: var(--success);
 }
 
-.error {
+.state.error {
   color: var(--error);
 }
 
-.loading {
+.state.loading {
   color: #666;
   font-style: italic;
 }
 
+.state.empty {
+  color: #777;
+}
+
 /* ---------------------- */
-/* BOOKING SECTION */
+/* BOOKING SECTION        */
 /* ---------------------- */
 #booking-section {
-  margin-top: 20px;
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  max-width: 450px;
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.buttons {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
+  margin-top: 0;
 }
 
 /* ---------------------- */
-/* BOOKINGS LIST */
+/* BOOKINGS LIST (ADMIN)  */
 /* ---------------------- */
-#bookingsList {
+.bookings-list {
   margin-top: 12px;
   padding: 12px;
   border: 1px dashed #bbb;
   border-radius: 8px;
-  max-width: 450px;
   background: #fafafa;
+  font-size: 0.9rem;
 }
+
+/* ---------------------- */
+/* FOOTER                 */
+/* ---------------------- */
+.app-footer {
+  border-top: 1px solid var(--border-light);
+  padding: 10px 16px 14px;
+  background: #ffffff;
+}
+
+.app-footer small {
+  display: block;
+  max-width: 960px;
+  margin: 0 auto;
+  font-size: 0.8rem;
+  color: #555;
+}
+
