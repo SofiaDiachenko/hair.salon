@@ -1,30 +1,43 @@
-# nfr_checklist_practice_01
+# nfr_checklist_practice_02
 
-1. **time_format_iso_utc**  
-   - Усі дати/часи зберігаються в UTC у форматі ISO 8601.  
-   - приклад: `2025-03-04T10:00:00Z`.
+## час_та_формат
 
-2. **stable_error_codes**  
-   - Визначені сталі коди помилок:
-     - `BOOKING_FULL` — спроба забронювати повний timeslot;
-     - `TIMESLOT_NOT_FOUND` — запит на неіснуючий timeslot;
-     - `VALIDATION_ERROR` — некоректні дані у формі;
-     - `SERVICE_NOT_FOUND` — послуга не знайдена.  
+1. **iso_8601_utc**  
+   - timeslot.start та booking.created_at зберігаються в ISO 8601 + UTC, наприклад `2025-03-04T10:00:00Z`.
+   - на фронтенді час відображається через функцію форматування дати.
 
-3. **performance_first_lightweight_responses**  
-   - Відповіді API повертають тільки потрібні поля (service_id, timeslot_id, start, capacity, status), без зайвих вкладених структур.
+## продуктивність (performance_first)
 
-4. **performance_first_caching_frontend**  
-   - Список послуг кешується на фронтенді після першого завантаження (servicesCache), повторні запити не виконуються без потреби.
+2. **frontend_caching_services**  
+   - список послуг завантажується один раз і кешується у змінній `servicesCache`, повторних запитів до /services немає без потреби.
 
-5. **performance_first_pagination_ready**  
-   - Для timeslots та bookings API проектується з можливістю додати параметри `page`, `limit` без зміни поточної моделі.
+3. **lightweight_endpoints**  
+   - `GET /timeslots` повертає тільки ключові поля (timeslot_id, service_id, start, capacity);  
+   - `GET /bookings` — тільки booking_id, slot_id, status, client_name, created_at.
 
-6. **minimal_pii_storage**  
-   - Зберігаються тільки client_name і contact, без надлишкових персональних даних.
+4. **capacity_check_on_frontend**  
+   - перед `POST /bookings` фронтенд перевіряє наявні бронювання через `GET /bookings?slot_id=`, щоб уникнути зайвих POST-запитів у переповненні.
 
-7. **availability_target**  
-   - Цільова доступність системи — 99% у робочі години салону (концептуальна вимога для майбутнього продакшена).
+5. **ready_for_pagination**  
+   - структура `db.json` і UI побудовані так, щоб можна було додати параметри `?_page=&_limit=` (json-server) без зміни контракту.
 
-8. **logging_and_monitoring_minimum**  
-   - Логуються технічні події (створення/оновлення booking, коди помилок), без логування повних контактних даних клієнтів.
+## доступність (a11y-аспекти, навіть при perf-акценті)
+
+6. **aria_live_regions**  
+   - блоки `timeslots-state` і `booking-state` мають `aria-live="assertive"` / `polite` для оголошення станів (loading, error, success).
+
+7. **keyboard_navigation_focus**  
+   - усі кнопки та поля форм доступні з клавіатури; стилі `:focus-visible` підсвічують активний елемент.
+
+8. **visually_hidden_labels**  
+   - для select використано `visually-hidden` label, щоб допомогти screen reader, але не захаращувати UI.
+
+## стабільні_коди_помилок
+
+9. **error_codes**  
+   - у специфікації системи закріплені коди:
+     - `BOOKING_FULL`
+     - `TIMESLOT_NOT_FOUND`
+     - `VALIDATION_ERROR`
+   - відповідні повідомлення відображаються у UI через блоки станів.
+
