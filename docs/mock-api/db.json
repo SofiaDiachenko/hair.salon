@@ -1,17 +1,57 @@
 {
   "services": [
-    { "service_id": 1, "name": "Стрижка жіноча", "duration_min": 30, "description": "Класична стрижка" },
-    { "service_id": 2, "name": "Фарбування", "duration_min": 120, "description": "Повне фарбування" },
-    { "service_id": 3, "name": "Укладка", "duration_min": 45, "description": "Укладання та фініш" }
+    {
+      "service_id": 1,
+      "name": "Стрижка жіноча",
+      "duration_min": 30,
+      "description": "Класична стрижка",
+      "id": "eb6a"
+    },
+    {
+      "service_id": 2,
+      "name": "Фарбування",
+      "duration_min": 120,
+      "description": "Повне фарбування волосся",
+      "id": "24bc"
+    },
+    {
+      "service_id": 3,
+      "name": "Укладка",
+      "duration_min": 45,
+      "description": "Укладання та фініш",
+      "id": "06b0"
+    }
   ],
-
   "timeslots": [
-    { "timeslot_id": 1, "service_id": 1, "start": "2025-03-04T10:00:00Z", "capacity": 3 },
-    { "timeslot_id": 2, "service_id": 1, "start": "2025-03-04T11:00:00Z", "capacity": 3 },
-    { "timeslot_id": 3, "service_id": 2, "start": "2025-03-04T14:00:00Z", "capacity": 3 },
-    { "timeslot_id": 4, "service_id": 3, "start": "2025-03-04T15:00:00Z", "capacity": 3 }
+    {
+      "timeslot_id": 1,
+      "service_id": 1,
+      "start": "2025-03-04T10:00:00Z",
+      "capacity": 3,
+      "id": "3e39"
+    },
+    {
+      "timeslot_id": 2,
+      "service_id": 1,
+      "start": "2025-03-04T11:00:00Z",
+      "capacity": 3,
+      "id": "b995"
+    },
+    {
+      "timeslot_id": 3,
+      "service_id": 2,
+      "start": "2025-03-04T14:00:00Z",
+      "capacity": 3,
+      "id": "d367"
+    },
+    {
+      "timeslot_id": 4,
+      "service_id": 3,
+      "start": "2025-03-04T15:00:00Z",
+      "capacity": 3,
+      "id": "8405"
+    }
   ],
-
   "bookings": [
     {
       "booking_id": 1,
@@ -20,7 +60,8 @@
       "client_name": "Клієнт 1",
       "contact": "client1@example.com",
       "status": "confirmed",
-      "created_at": "2025-03-01T09:00:00Z"
+      "created_at": "2025-03-01T09:00:00Z",
+      "id": "354e"
     },
     {
       "booking_id": 2,
@@ -29,8 +70,28 @@
       "client_name": "Клієнт 2",
       "contact": "client2@example.com",
       "status": "confirmed",
-      "created_at": "2025-03-01T09:02:00Z"
+      "created_at": "2025-03-01T09:02:00Z",
+      "id": "dd88"
+    },
+    {
+      "booking_id": 3,
+      "service_id": 1,
+      "slot_id": 2,
+      "client_name": "Олена",
+      "contact": "+380501112233",
+      "status": "confirmed",
+      "created_at": "2025-03-02T10:15:00Z",
+      "id": "dca7"
+    },
+    {
+      "booking_id": 4,
+      "service_id": 2,
+      "slot_id": 3,
+      "client_name": "Sophia",
+      "contact": "sophia@example.com",
+      "status": "confirmed",
+      "created_at": "2025-03-02T11:30:00Z",
+      "id": "f5cc"
     }
   ]
 }
-
