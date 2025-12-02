@@ -1,22 +1,6 @@
 [
-  {
-    "master_id": 1,
-    "master_name": "Майстер Надія",
-    "date": "2025-03-04",
-    "slots": [
-      { "time": "10:00:00Z", "capacity_used": 2, "capacity_max": 3, "is_available": true, "slot_id": "TS1" },
-      { "time": "11:00:00Z", "capacity_used": 0, "capacity_max": 3, "is_available": true, "slot_id": "TS2" },
-      { "time": "12:00:00Z", "capacity_used": 3, "capacity_max": 3, "is_available": false, "slot_id": "TS3" },
-      { "time": "14:00:00Z", "capacity_used": 1, "capacity_max": 3, "is_available": true, "slot_id": "TS4" }
-    ]
-  },
-  {
-    "master_id": 2,
-    "master_name": "Майстер Віктор",
-    "date": "2025-03-05",
-    "slots": [
-      { "time": "09:00:00Z", "capacity_used": 0, "capacity_max": 3, "is_available": true, "slot_id": "TS5" },
-      { "time": "10:00:00Z", "capacity_used": 3, "capacity_max": 3, "is_available": false, "slot_id": "TS6" }
-    ]
-  }
+  { "id": 1, "serviceId": 1, "start": "2025-03-04T10:00:00Z", "capacity": 3 },
+  { "id": 2, "serviceId": 1, "start": "2025-03-04T11:00:00Z", "capacity": 3 },
+  { "id": 3, "serviceId": 2, "start": "2025-03-04T14:00:00Z", "capacity": 3 },
+  { "id": 4, "serviceId": 3, "start": "2025-03-04T15:00:00Z", "capacity": 3 }
 ]
