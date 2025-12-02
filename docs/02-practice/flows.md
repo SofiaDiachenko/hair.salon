@@ -1,25 +1,25 @@
 # Flows — Користувацькі сценарії
 
-## Flow 1 — Успішне бронювання (основний сценарій)
+## Flow 1 — Успішне бронювання (happy path)
 1. Client відкриває сайт.
-2. Client обирає послугу зі списку (GET /services).
-3. Client бачить список доступних таймслотів (GET /timeslots?serviceId=).
-4. Client обирає вільний слот (capacity > booked).
-5. Client заповнює форму (name, phone/email).
-6. Client натискає "Підтвердити".
-7. Frontend перевіряє поточну кількість бронювань на слоті (GET /bookings?slotId=).
-8. Якщо місця є — POST /bookings, отримує статус 201 → показує Success.
-9. Якщо слот заповнений — показує помилку BOOKING_FULL.
+2. Client обирає послугу (GET /services).
+3. Client бачить timeslots для цієї послуги (GET /timeslots?service_id=).
+4. Client обирає вільний timeslot (capacity > confirmed_bookings).
+5. Показується booking form.
+6. Client вводить client_name та contact і натискає "Підтвердити".
+7. Frontend перевіряє кількість existing bookings для timeslot (GET /bookings?slot_id=).
+8. Якщо місця є — POST /bookings створює booking зі status = "confirmed".
+9. UI показує success-стан.
 
-## Flow 2 — Empty state (немає доступних слотів)
+## Flow 2 — Empty state (немає слотів)
 1. Client обирає послугу.
-2. GET /timeslots?serviceId= повертає пустий масив або всі слоти мають available=false.
-3. UI показує Empty state: "Немає доступних слотів".
+2. GET /timeslots?service_id= повертає пустий масив або всі слоти мають місць 0.
+3. UI відображає повідомлення: "Немає доступних слотів".
+4. Client може змінити дату або обрати іншу послугу.
 
-## Flow 3 — Помилка сервера (error)
-1. Під час запиту GET/POST серевер повертає код 500 або мережеву помилку.
-2. UI показує Error state з повідомленням "Сталася помилка, спробуйте пізніше".
-
-## Додаткові сценарії
-- Скасування бронювання (US03): користувач натискає "Скасувати" → DELETE /bookings/{id} → оновлення UI.
-- Перегляд бронювань майстром (US04): master авторизується → GET /bookings?masterId=.
+## Flow 3 — Error: слот заповнений (BOOKING_FULL)
+1. Client запускає бронювання.
+2. Перед POST фронтенд перевіряє кількість confirmed бронювань.
+3. Якщо місць нема — mock API/логіка повертає помилку:
+   ```json
+   { "error_code": "BOOKING_FULL", "message": "Слот заповнений" }
