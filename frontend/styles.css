@@ -1,1 +1,51 @@
+/* A11y: Високий контраст */
+body {
+    font-family: sans-serif;
+    background-color: #121212; /* Темний фон */
+    color: #e0e0e0; /* Світлий текст */
+}
+h1, h2 {
+    color: #bb86fc; /* Акцентний колір */
+}
 
+/* A11y: Фокус клавіатури */
+button:focus, input:focus {
+    outline: 3px solid #03dac6;
+    border-radius: 4px;
+}
+
+/* Стан Завантаження */
+.loading-state {
+    padding: 15px;
+    background-color: #2e2e2e;
+    color: #e0e0e0;
+    border-radius: 4px;
+    border-left: 5px solid #bb86fc;
+}
+
+/* Стан Помилки */
+.error-state {
+    padding: 15px;
+    background-color: #3b2b2b;
+    color: #cf6679;
+    border-radius: 4px;
+    border-left: 5px solid #cf6679;
+}
+
+/* Стан Успіху */
+.success-state {
+    padding: 15px;
+    background-color: #2b3b2b;
+    color: #03dac6;
+    border-radius: 4px;
+    border-left: 5px solid #03dac6;
+}
+
+/* Стан Empty */
+.empty-state {
+    padding: 15px;
+    background-color: #2e2e2e;
+    color: #e0e0e0;
+    border-radius: 4px;
+    border: 1px dashed #e0e0e0;
+}
