@@ -1,30 +1,30 @@
-# NFR Checklist
+# NFR Checklist — реалізація у мок-прототипі
 
 ## Формат часу
-- Усі дати/часи — ISO 8601, UTC (записи в timeslot.start, booking.created_at)
+- Усі дати у mock-api задані в ISO 8601 (UTC), наприклад: 2025-03-04T10:00:00Z.
 
 ## Стабільні коди помилок
 - BOOKING_FULL — слот заповнений
 - INVALID_TIMESLOT — таймслот не знайдено
 - NOT_FOUND — ресурс не знайдено
-- UNAUTHORIZED — відсутня авторизація
+- UNAUTHORIZED — неавторизований доступ
 
 ## Performance (акцент)
-- Пагінація для GET /timeslots та GET /bookings: support ?limit=&offset=
-- Мінімальні відповіді: тільки необхідні поля (no heavy payload)
-- Кешування популярних запитів (в прототипі: services кешується в браузері / servicesCache)
-- Стиснення відповіді — на production (gzip/br)
+- Локальні JSON файли — швидкі відповіді.
+- Кеш у frontend (servicesCache) — зменшує кількість запитів.
+- Мінімальна кількість полів у відповіді (payload slim).
+- Можливість імітації пагінації: GET /timeslots?limit=&offset=.
 
 ## Accessibility (a11y)
-- aria-label на інтерактивних елементах
-- видимий focus outline
-- клавішна навігація (tabindex, логічний порядок)
-- aria-live для динамічних оновлень (timeslots)
+- aria-label на контролах.
+- Видимий фокус (outline) на input/button.
+- aria-live для повідомлень про помилки/успіх.
+- Логічний порядок Tab.
 
 ## Privacy
-- У production — маскування контактів, зберігання PII мінімізоване
-- У прототипі — тестові/mock дані. Не зберігати реальні PII в репозиторії.
+- У прототипі — тестові дані, PII не зберігаються в репозиторії.
+- В продакшн: маскування контактів, мінімізація збереження PII.
 
 ## Availability
-- SLA target (production): 99% uptime
+- Прототип запускається локально, доступний офлайн для demo.
 
