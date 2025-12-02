@@ -1,5 +1,20 @@
 [
-  { "id": 1, "serviceId": 1, "slotId": 1, "clientName": "Клієнт 1", "createdAt": "2025-03-01T09:00:00Z", "status": "confirmed" },
-  { "id": 2, "serviceId": 1, "slotId": 1, "clientName": "Клієнт 2", "createdAt": "2025-03-01T09:02:00Z", "status": "confirmed" }
+  {
+    "booking_id": 1,
+    "service_id": 1,
+    "slot_id": 1,
+    "client_name": "Клієнт 1",
+    "contact": "client1@example.com",
+    "status": "confirmed",
+    "created_at": "2025-03-01T09:00:00Z"
+  },
+  {
+    "booking_id": 2,
+    "service_id": 1,
+    "slot_id": 1,
+    "client_name": "Клієнт 2",
+    "contact": "client2@example.com",
+    "status": "confirmed",
+    "created_at": "2025-03-01T09:02:00Z"
+  }
 ]
-
