@@ -21,6 +21,10 @@
 - **NFR-акцент:** performance-first.  
 
 ---
+##  Скріншоти
+
+Головний екран інтерфейсу:
+![screen-main](https://github.com/user-attachments/assets/30bce245-713f-4ddf-a7f1-8082e9af3915)
 
 ##  Запуск проєкту
 
