@@ -24,7 +24,8 @@
 ##  Скріншоти
 
 Головний екран інтерфейсу:
-![screen-main](https://github.com/user-attachments/assets/30bce245-713f-4ddf-a7f1-8082e9af3915)
+![screen-main](https://github.com/user-attachments/assets/abfc0bd9-e679-4deb-9576-d07343161be0)
+
 
 ##  Запуск проєкту
 
