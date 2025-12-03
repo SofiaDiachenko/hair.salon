@@ -28,7 +28,43 @@
 
 ##  Запуск проєкту
 
-### 1. Встановити json-server (якщо ще не встановлений)
+ Як запустити проєкт
+1. Встановити залежності
 
-```bash
+Потрібен Node.js (версія 16+).
+
+Встановлюємо json-server:
+
 npm install -g json-server
+
+2. Запустити мок-API сервер
+
+Перейти в корінь проєкту та виконати:
+
+json-server --watch mock-api/db.json --port 3000
+
+
+API буде доступне за адресою:
+
+http://localhost:3000
+
+Доступні ендпоїнти:
+
+GET /services
+
+GET /timeslots?service_id=...
+
+GET /bookings
+
+POST /bookings
+
+3. Запустити фронтенд
+
+Варіанти:
+
+ВАРІАНТ 1 — через Live Server (VS Code)
+
+Потрібно встановити розширення Live Server.
+Далі — правою кнопкою → Open with Live Server.
+
+ВАРІАНТ 2 — просто відкрити frontend/index.html
